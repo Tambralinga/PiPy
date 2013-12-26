@@ -4,10 +4,8 @@ __author__ = 'Chad Dotson'
 import RPi.GPIO as GPIO
 import time
 
-import threading
 
-
-class MotionDetector(threading.Thread):
+class MotionDetector
     _callback = None
 
     _current_state = 0
@@ -27,26 +25,22 @@ class MotionDetector(threading.Thread):
         while GPIO.input(self._gpio_input) == 1:
             self._current_state = 0
 
-        super(threading.Thread, self).__init__(target= self._monitor, args = ())
-
     def __del__(self):
         GPIO.cleanup()
 
-    def _monitor(self):
+    def monitor(self):
 
-        while active:
+        self._current_state = GPIO.input(self._gpio_input)
 
-            self._current_state = GPIO.input(self._gpio_input)
+        if self._current_state == 1 and self._previous_state == 0:
+            self._notify()
+            self._previous_state = 1
 
-            if self._current_state == 1 and self._previous_state == 0:
-                print "Motion Detected"
-                self._previous_state = 1
+        elif self._current_state == 0 and self._previous_state == 1:
+            self._previous_state = 0
 
-            elif self._current_state == 0 and self._previous_state == 1:
-                self._previous_state = 0
+        time.sleep(0.01)
 
-            time.sleep(0.01)
-
-    def notify(self):
+    def _notify(self):
         self._callback()
 
