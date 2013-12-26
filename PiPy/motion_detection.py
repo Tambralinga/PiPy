@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 
-class MotionDetector
+class MotionDetector:
     _callback = None
 
     _current_state = 0
