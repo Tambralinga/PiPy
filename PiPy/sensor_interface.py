@@ -30,14 +30,19 @@ class MotionDetector:
 
     def monitor(self):
         while self.active:
+
             self._current_state = GPIO.input(self._gpio_input)
 
-            if self._current_state == 1 and self._previous_state == 0:
+            if self._current_state == 1:
                 self._notify()
-                self._previous_state = 1
+                self._current_state = 0
 
-            elif self._current_state == 0 and self._previous_state == 1:
-                self._previous_state = 0
+            #if self._current_state == 1 and self._previous_state == 0:
+            #    self._notify()
+            #    self._previous_state = 1
+            #
+            #elif self._current_state == 0 and self._previous_state == 1:
+            #    self._previous_state = 0
 
             time.sleep(0.01)
 
