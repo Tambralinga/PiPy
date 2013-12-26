@@ -21,6 +21,8 @@ class MotionDetector(threading.Thread):
         self._callback = callback
         self._gpio_input = gpio_input
 
+        GPIO.setmode(GPIO.BCM)
+
         GPIO.setup(self._gpio_input, GPIO.IN)
         while GPIO.input(self._gpio_input) == 1:
             self._current_state = 0
