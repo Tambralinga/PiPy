@@ -54,6 +54,9 @@ class RangeFinder:
         self._gpio_trigger = gpio_trigger
         self._gpio_echo = gpio_echo
 
+
+        GPIO.setmode(GPIO.BCM)
+
         GPIO.setup(self._gpio_trigger, GPIO.OUT)
         GPIO.setup(self._gpio_echo, GPIO.IN)
 
