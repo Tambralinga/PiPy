@@ -6,18 +6,15 @@ import time
 
 
 class MotionDetector:
-    _callback = None
-
-    _current_state = 0
-    _previous_state = 0
-
-    _gpio_input = None
 
     active = True
 
-    def __init__(self, callback, gpio_input):
+    def __init__(self, callback, gpio_input, delay):
         self._callback = callback
         self._gpio_input = gpio_input
+        self._current_state = 0
+        self._previous_state = 0
+        self._delay = delay
 
         GPIO.setmode(GPIO.BCM)
 
@@ -26,7 +23,7 @@ class MotionDetector:
             self._current_state = 0
 
     def __del__(self):
-        GPIO.cleanup()
+        pass
 
     def monitor(self):
         while self.active:
@@ -36,6 +33,7 @@ class MotionDetector:
             if self._current_state == 1:
                 self._notify()
                 self._current_state = 0
+                time.sleep(self._delay)
 
             #if self._current_state == 1 and self._previous_state == 0:
             #    self._notify()
@@ -51,9 +49,6 @@ class MotionDetector:
 
 
 class RangeFinder:
-
-    _gpio_trigger = None
-    _gpio_echo = None
 
     def __init__(self, gpio_trigger, gpio_echo):
         self._gpio_trigger = gpio_trigger
@@ -72,7 +67,7 @@ class RangeFinder:
 
 
     def __del__(self):
-        GPIO.cleanup()
+        pass
 
     def get_range(self):
         GPIO.output(self._gpio_trigger, True)
@@ -91,7 +86,7 @@ class RangeFinder:
 
         # Distance pulse travelled in that time is time
         # multiplied by the speed of sound (cm/s)
-        distance = elapsed * 34300
+        distance = elapsed * 34029
 
         # That was the distance there and back so halve the value
         distance = distance / 2

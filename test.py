@@ -64,7 +64,7 @@ meh = MotionEventHandler("captures")
 #
 #    i += 1
 
-md = MotionDetector(meh.capture, 7)
+md = MotionDetector(meh.capture, 7, delay=5)
 
 t = threading.Thread(target=md.monitor, args=())
 
@@ -78,5 +78,8 @@ try:
 
 except KeyboardInterrupt:
     md.active = False
+
+finally:
+    GPIO.cleanup()
 
 
