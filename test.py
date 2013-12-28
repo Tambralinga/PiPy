@@ -1,5 +1,7 @@
 __author__ = 'Chad Dotson'
 
+import RPi.GPIO as GPIO
+
 from PiPy.sensor_interface import MotionDetector, RangeFinder
 
 import picamera
