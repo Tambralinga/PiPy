@@ -67,7 +67,7 @@ class RangeFinder:
 
 
     def __del__(self):
-        pass
+        GPIO.setup(self._gpio_trigger, GPIO.IN) # reset to input for safety.
 
     def get_range(self):
         GPIO.output(self._gpio_trigger, True)
